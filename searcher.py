@@ -1,8 +1,16 @@
+#better use libtorrent :)
+from qbittorrent import Client
 import requests
 import time
+
+qb = Client('http://127.0.0.1:8080/')
+
 search_url = 'https://api.xrel.to/v2/search/releases.json'
 error_20 = {'error': 'No results found', 'error_code': 20}
 xrel_error = {'total': 0, 'results': []}
+
+def downloader():
+    qb.login
 
 print("1: Search for releases and magnet links")
 
@@ -48,3 +56,17 @@ if y == "1":
         print("Magnet:")
         print("")
         print(ms["torrent_results"][0]["download"])
+        
+        #Download
+        u = input("Download this Torrent? Press 1 to download.")
+        
+        if(u == "1") :
+            downloader()
+            qb.download_from_link(ms["torrent_results"][0]["download"])
+            time.sleep(10)
+            print(qb.torrents())
+        
+
+        
+    
+    
